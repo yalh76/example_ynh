@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..." --time --weight=1
+ynh_print_info --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -28,18 +28,12 @@ db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 # CHECK VERSION
 #=================================================
 
-### This helper will compare the version of the currently installed app and the version of the upstream package.
-### $upgrade_type can have 2 different values
-### - UPGRADE_APP if the upstream app version has changed
-### - UPGRADE_PACKAGE if only the YunoHost package has changed
-### ynh_check_app_version_changed will stop the upgrade if the app is up to date.
-### UPGRADE_APP should be used to upgrade the core app only if there's an upgrade to do.
 upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..." --time --weight=1
+ynh_print_info --message="Ensuring downward compatibility..."
 
 # Fix is_public as a boolean value
 if [ "$is_public" = "Yes" ]; then
@@ -65,7 +59,7 @@ fi
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --time --weight=1
+ynh_print_info --message="Backing up the app before upgrading (may take a while)..."
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -93,7 +87,7 @@ path_url=$(ynh_normalize_url_path --path_url=$path_url)
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..." --time --weight=1
+ynh_print_info --message="Stopping a systemd service..."
 
 ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
 
@@ -103,7 +97,7 @@ ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-	ynh_script_progression --message="Upgrading source files..." --time --weight=1
+	ynh_print_info --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
@@ -112,7 +106,7 @@ fi
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading nginx web server configuration..." --time --weight=1
+ynh_print_info --message="Upgrading nginx web server configuration..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -120,14 +114,14 @@ ynh_add_nginx_config
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..." --time --weight=1
+ynh_print_info --message="Upgrading dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --time --weight=1
+ynh_print_info --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app
@@ -135,7 +129,7 @@ ynh_system_user_create --username=$app
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading php-fpm configuration..." --time --weight=1
+ynh_print_info --message="Upgrading php-fpm configuration..."
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config
@@ -149,9 +143,8 @@ ynh_add_fpm_config
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
 #=================================================
+ynh_print_info --message="Storing the config file checksum..."
 
-### Verify the checksum of a file, stored by `ynh_store_file_checksum` in the install script.
-### And create a backup of this file if the checksum is different. So the file will be backed up if the admin had modified it.
 ynh_backup_if_checksum_is_different --file="$final_path/CONFIG_FILE"
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$final_path/CONFIG_FILE"
@@ -159,7 +152,7 @@ ynh_store_file_checksum --file="$final_path/CONFIG_FILE"
 #=================================================
 # SETUP LOGROTATE
 #=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..." --time --weight=1
+ynh_print_info --message="Upgrading logrotate configuration..."
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append
@@ -167,7 +160,7 @@ ynh_use_logrotate --non-append
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_script_progression --message="Upgrading systemd configuration..." --time --weight=1
+ynh_print_info --message="Upgrading systemd configuration..."
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
@@ -177,7 +170,7 @@ ynh_add_systemd_config
 #=================================================
 # UPGRADE FAIL2BAN
 #=================================================
-ynh_script_progression --message="Reconfiguring fail2ban..." --time --weight=1
+ynh_print_info --message="Reconfiguring fail2ban..."
 
 # Create a dedicated fail2ban config
 ynh_add_fail2ban_config --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
@@ -185,6 +178,7 @@ ynh_add_fail2ban_config --logpath="/var/log/nginx/${domain}-error.log" --failreg
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
+ynh_print_info --message="Securing files and directories..."
 
 # Set permissions on app files
 chown -R root: $final_path
@@ -192,7 +186,7 @@ chown -R root: $final_path
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..." --time --weight=1
+ynh_print_info --message="Upgrading SSOwat configuration..."
 
 # Make app public if necessary
 if [ $is_public -eq 1 ]
@@ -204,14 +198,14 @@ fi
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --time --weight=1
+ynh_print_info --message="Starting a systemd service..."
 
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
+ynh_print_info --message="Reloading nginx web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -219,4 +213,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --time --last
+ynh_print_info --message="Upgrade of $app completed"
