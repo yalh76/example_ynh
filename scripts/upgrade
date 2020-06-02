@@ -144,7 +144,7 @@ ynh_add_fpm_config
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Storing the config file checksum..."
+ynh_script_progression --message="Modifying a config file..."
 
 ynh_backup_if_checksum_is_different --file="$final_path/CONFIG_FILE"
 
