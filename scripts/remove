@@ -114,7 +114,7 @@ ynh_remove_fail2ban_config
 #=================================================
 # REMOVE VARIOUS FILES
 #=================================================
-ynh_script_progression --message="Removing the cron file..."
+ynh_script_progression --message="Removing various files..."
 
 # Remove a cron file
 ynh_secure_remove --file="/etc/cron.d/$app"
