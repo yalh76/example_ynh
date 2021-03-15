@@ -154,16 +154,11 @@ ynh_script_progression --message="Upgrading systemd configuration..."
 ynh_add_systemd_config
 
 #=================================================
-# MODIFY A CONFIG FILE
+# UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Modifying a config file..."
+ynh_script_progression --message="Updating a config file..."
 
-ynh_backup_if_checksum_is_different --file="$final_path/CONFIG_FILE"
-
-ynh_replace_string --match_string="match_string" --replace_string="replace_string" --target_file="$final_path/CONFIG_FILE"
-
-# Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum --file="$final_path/CONFIG_FILE"
+ynh_add_config --template="some_config_file" --destination="$final_path/some_config_file"
 
 #=================================================
 # GENERIC FINALIZATION

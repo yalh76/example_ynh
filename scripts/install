@@ -141,18 +141,10 @@ ynh_add_systemd_config
 #=================================================
 ynh_script_progression --message="Setuping application with CURL..."
 
-# Set right permissions for curl install
-chown -R $app: $final_path
-
 # Set the app as temporarily public for curl call
 ynh_script_progression --message="Configuring SSOwat..."
 # Making the app public for curl
 ynh_permission_update --permission="main" --add="visitors"
-# Reload SSOwat config
-yunohost app ssowatconf
-
-# Reload NGINX
-ynh_systemd_action --service_name=nginx --action=reload
 
 # Installation with curl
 ynh_script_progression --message="Finalizing installation..."
@@ -162,19 +154,11 @@ ynh_local_curl "/INSTALL_PATH" "key1=value1" "key2=value2" "key3=value3"
 ynh_permission_update --permission="main" --remove="visitors"
 
 #=================================================
-# MODIFY A CONFIG FILE
+# ADD A CONFIGURATION
 #=================================================
 ynh_script_progression --message="Modifying a config file..."
 
-ynh_replace_string --match_string="match_string" --replace_string="replace_string" --target_file="$final_path/CONFIG_FILE"
-
-#=================================================
-# STORE THE CONFIG FILE CHECKSUM
-#=================================================
-ynh_script_progression --message="Storing the config file checksum..."
-
-# Calculate and store the config file checksum into the app settings
-ynh_store_file_checksum --file="$final_path/CONFIG_FILE"
+ynh_add_config --template="some_config_file" --destination="$final_path/some_config_file"
 
 #=================================================
 # GENERIC FINALIZATION
@@ -229,6 +213,9 @@ then
 	# The "main" permission is automatically created before the install script.
 	ynh_permission_update --permission="main" --add="visitors"
 fi
+
+### N.B. : the following extra permissions only make sense if your app
+### does have for example an admin interface or an api.
 
 # Only the admin can access the admin panel of the app (if the app has an admin panel)
 ynh_permission_create --permission="admin" --url="/admin" --allowed=$admin
