@@ -23,7 +23,7 @@ ynh_abort_if_errors
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading settings..."
+ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -133,7 +133,7 @@ ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$ap
 #=================================================
 # RESTORE VARIOUS FILES
 #=================================================
-ynh_script_progression --message="Restoring the various files..."
+ynh_script_progression --message="Restoring various files..."
 
 ynh_restore_file --origin_path="/etc/cron.d/$app"
 
