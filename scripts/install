@@ -69,7 +69,7 @@ ynh_app_setting_set --app=$app --key=port --value=$port
 # If you do this and the app doesn't actually need you are CREATING SECURITY HOLES IN THE SERVER !)
 
 # Open the port
-# ynh_script_progression --message="Configuring firewall..." --time --weight=1
+# ynh_script_progression --message="Configuring firewall..."
 # ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $port
 
 #=================================================
@@ -213,9 +213,6 @@ then
 	# The "main" permission is automatically created before the install script.
 	ynh_permission_update --permission="main" --add="visitors"
 fi
-
-### N.B. : the following extra permissions only make sense if your app
-### does have for example an admin interface or an api.
 
 # Only the admin can access the admin panel of the app (if the app has an admin panel)
 ynh_permission_create --permission="admin" --url="/admin" --allowed=$admin
