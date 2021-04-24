@@ -97,7 +97,7 @@ fi
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
-chown -R root:$app "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -129,14 +129,6 @@ ynh_add_fpm_config
 #=================================================
 
 #=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Upgrading systemd configuration..."
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
-
-#=================================================
 # UPDATE A CONFIG FILE
 #=================================================
 ynh_script_progression --message="Updating a config file..."
@@ -145,6 +137,14 @@ ynh_add_config --template="some_config_file" --destination="$final_path/some_con
 
 chmod 400 "$final_path/some_config_file"
 chown $app:$app "$final_path/some_config_file"
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_script_progression --message="Upgrading systemd configuration..." --time --weight=1
+
+# Create a dedicated systemd config
+ynh_add_systemd_config
 
 #=================================================
 # GENERIC FINALIZATION

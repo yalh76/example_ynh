@@ -108,7 +108,7 @@ ynh_setup_source --dest_dir="$final_path"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
-chown -R root:$app "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -131,6 +131,15 @@ ynh_add_fpm_config
 #=================================================
 # ...
 #=================================================
+
+#=================================================
+# ADD A CONFIGURATION
+#=================================================
+
+ynh_add_config --template="some_config_file" --destination="$final_path/some_config_file"
+
+chmod 400 "$final_path/some_config_file"
+chown $app:$app "$final_path/some_config_file"
 
 #=================================================
 # SETUP SYSTEMD
@@ -156,16 +165,6 @@ ynh_local_curl "/INSTALL_PATH" "key1=value1" "key2=value2" "key3=value3"
 
 # Remove the public access
 ynh_permission_update --permission="main" --remove="visitors"
-
-#=================================================
-# ADD A CONFIGURATION
-#=================================================
-ynh_script_progression --message="Adding a config file..."
-
-ynh_add_config --template="some_config_file" --destination="$final_path/some_config_file"
-
-chmod 400 "$final_path/some_config_file"
-chown $app:$app "$final_path/some_config_file"
 
 #=================================================
 # GENERIC FINALIZATION
