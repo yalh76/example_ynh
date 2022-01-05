@@ -75,7 +75,7 @@ ynh_secure_remove --file="$final_path"
 # Remove the data directory if --purge option is used
 if [ "${YNH_APP_PURGE:-0}" -eq 1 ]
 then
-	ynh_script_progression --message="Removing app data directory..." --time --weight=1
+	ynh_script_progression --message="Removing app data directory..."
 	ynh_secure_remove --file="$datadir"
 fi
 
@@ -98,7 +98,7 @@ ynh_remove_fpm_config
 #=================================================
 # REMOVE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Removing dependencies..." --time --weight=1
+ynh_script_progression --message="Removing dependencies..."
 
 # Remove metapackage and its dependencies
 ynh_remove_app_dependencies
