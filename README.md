@@ -5,30 +5,34 @@ It shall NOT be edited by hand.
 
 # Example app for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/example.svg)](https://dash.yunohost.org/appci/app/example) ![](https://ci-apps.yunohost.org/ci/badges/example.status.svg)  ![](https://ci-apps.yunohost.org/ci/badges/example.maintain.svg)
-[![Install example with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=example)
+[![Integration level](https://dash.yunohost.org/integration/example.svg)](https://dash.yunohost.org/appci/app/example) ![Working status](https://ci-apps.yunohost.org/ci/badges/example.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/example.maintain.svg)  
+[![Install Example app with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=example)
 
 *[Lire ce readme en français.](./README_fr.md)*
 
-> *This package allows you to install example quickly and simply on a YunoHost server.
+> *This package allows you to install Example app quickly and simply on a YunoHost server.
 If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 
 ## Overview
 
-Explain in *a few (10~15) words* the purpose of the app or what it actually does (it is meant to give a rough idea to users browsing a catalog of 100+ apps)
+Some long and extensive description of what the app is and does, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+### Features
+
+- Ut enim ad minim veniam, quis nostrud exercitation ullamco ;
+- Laboris nisi ut aliquip ex ea commodo consequat ;
+- Duis aute irure dolor in reprehenderit in voluptate ;
+- Velit esse cillum dolore eu fugiat nulla pariatur ;
+- Excepteur sint occaecat cupidatat non proident, sunt in culpa."
+
 
 **Shipped version:** 1.0~ynh1
 
 **Demo:** https://demo.example.com
 
-
 ## Screenshots
 
-
-   ![](./doc/screenshots/example.jpg)
-
-
-
+![Screenshot of Example app](./doc/screenshots/example.jpg)
 
 ## Disclaimers / important information
 
@@ -45,26 +49,25 @@ Explain in *a few (10~15) words* the purpose of the app or what it actually does
     * upgrade process / specificities / things to be aware of ?
     * security considerations ?
 
-
-
 ## Documentation and resources
 
-* Official app website: https://example.com
-* Official user documentation: https://yunohost.org/apps
-* Official admin documentation: https://yunohost.org/packaging_apps
-* Upstream app code repository: https://some.forge.com/example/example
-* YunoHost documentation for this app: https://yunohost.org/app_example
-* Report a bug: https://github.com/YunoHost-Apps/example_ynh/issues
+* Official app website: <https://example.com>
+* Official user documentation: <https://yunohost.org/apps>
+* Official admin documentation: <https://yunohost.org/packaging_apps>
+* Upstream app code repository: <https://some.forge.com/example/example>
+* YunoHost documentation for this app: <https://yunohost.org/app_example>
+* Report a bug: <https://github.com/YunoHost-Apps/example_ynh/issues>
 
 ## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/example_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
-```
+
+``` bash
 sudo yunohost app install https://github.com/YunoHost-Apps/example_ynh/tree/testing --debug
 or
 sudo yunohost app upgrade example -u https://github.com/YunoHost-Apps/example_ynh/tree/testing --debug
 ```
 
-**More info regarding app packaging:** https://yunohost.org/packaging_apps
+**More info regarding app packaging:** <https://yunohost.org/packaging_apps>
