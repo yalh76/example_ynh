@@ -167,7 +167,7 @@ ynh_add_systemd_config
 #=================================================
 # SETUP APPLICATION WITH CURL
 #=================================================
-ynh_script_progression --message="Setuping application with CURL..."
+ynh_script_progression --message="Setuping application with CURL..." --weight=1
 
 # Set the app as temporarily public for curl call
 ynh_script_progression --message="Configuring SSOwat..." --weight=1
