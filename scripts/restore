@@ -61,13 +61,6 @@ ynh_systemctl --action=restart --service=fail2ban
 ynh_restore "/etc/cron.d/$app"
 ynh_restore "/etc/$app/"
 
-### For apps with huge logs, you might want to not backup logs every time:
-### The mkdir call is just here in case the log directory was not backed up.
-### mkdir -p "/var/log/$app"
-### chown $app:www-data "/var/log/$app"
-### ynh_restore "/var/log/$app/" || true
-###
-### For other apps, the simple way is better:
 ynh_restore "/var/log/$app/"
 
 #=================================================
@@ -75,7 +68,6 @@ ynh_restore "/var/log/$app/"
 #=================================================
 ynh_script_progression "Reloading NGINX web server and $app's service..."
 
-### Typically you only have either $app or PHP-FPM but not both at the same time...
 ynh_systemctl --service="$app" --action="start"
 
 ynh_systemctl --service="php$php_version-fpm" --action=reload
