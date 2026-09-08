@@ -86,7 +86,7 @@ ram.runtime = "50M"
         [resources.sources.main]
         url = "https://github.com/foo/bar/archive/refs/tags/v1.2.3.tar.gz"
         sha256 = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
-    
+
         # autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
